@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Spring MVC GeekApp</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+  <h1>Список коробок:</h1>
+  <!--/*@thymesVar id="frProducts" type="java.util.List<com.geekbrains.spring.mvc.model.Product>"*/-->
+  <table th:if="${frProducts.size() > 0}" class="table">
+    <thead>
+    <tr>
+      <td>Id</td>
+      <td>Название</td>
+      <td>Стоимость</td>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="p" type="com.geekbrains.spring.mvc.model.Product"*/-->
+    <tr th:each="p : ${frProducts}">
+      <td th:text="${p.id}"></td>
+      <td th:text="${p.title}"></td>
+      <td th:text="${'C: ' + p.cost}"></td>
+      <td><a class="btn btn-danger" th:href="@{'/products/remove/' + ${p.id}}">Удалить</a></td>
+    </tr>
+    </tbody>
+  </table>
+  <span th:unless="${frProducts.size() > 0}">Продуктов нет</span>
+  <span th:text="'Количество продуктов: ' + ${frProducts.size()}"/>
+  <form th:action="@{'/products/add'}" method="post">
+    <!-- GET http://localhost:8189/app/products/add?id=10&title=Bone&cost=20 -->
+    <label>id</label>
+    <input type="number" name="id">
+    <label>название</label>
+    <input type="text" name="title">
+    <label>стоимость</label>
+    <input type="number" name="cost">
+    <button class="btn btn-primary" type="submit">Создать</button>
+  </form>
+</div>
+</body>
+</html>
